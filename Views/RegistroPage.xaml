@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RegistroEstudiantesApp.ViewModels"
+             xmlns:model="clr-namespace:RegistroEstudiantesApp.Models"
+             x:Class="RegistroEstudiantesApp.Views.RegistroPage"
+             x:DataType="vm:RegistroViewModel"
+             Title="Registro de estudiantes">
+    <Grid Padding="24" RowDefinitions="Auto,Auto,*" RowSpacing="16">
+        <Label Grid.Row="0"
+               Text="Registro de estudiante"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Nombre completo" FontAttributes="Bold" />
+                <Entry Text="{Binding Nombre}"
+                       Placeholder="Ej.: María García López"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding NombreError}" TextColor="Red" FontSize="12" />
+
+                <Label Text="Correo electrónico" FontAttributes="Bold" Margin="0,8,0,0" />
+                <Entry Text="{Binding Correo}"
+                       Placeholder="Ej.: maria@correo.com"
+                       Keyboard="Email"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding CorreoError}" TextColor="Red" FontSize="12" />
+
+                <Label Text="Teléfono" FontAttributes="Bold" Margin="0,8,0,0" />
+                <Entry Text="{Binding Telefono}"
+                       Placeholder="Ej.: 612345678"
+                       Keyboard="Telephone"
+                       MaxLength="15"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding TelefonoError}" TextColor="Red" FontSize="12" />
+
+                <Label Text="Carrera" FontAttributes="Bold" Margin="0,8,0,0" />
+                <Picker Title="Selecciona tu carrera"
+                        ItemsSource="{Binding Carreras}"
+                        SelectedItem="{Binding Carrera}" />
+                <Label Text="{Binding CarreraError}" TextColor="Red" FontSize="12" />
+
+                <Label Text="Fecha" FontAttributes="Bold" Margin="0,8,0,0" />
+                <DatePicker Date="{Binding Fecha}"
+                            Format="dd/MM/yyyy" />
+                <Label Text="{Binding FechaError}" TextColor="Red" FontSize="12" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0">
+                    <Button Grid.Column="0" Text="Limpiar" Command="{Binding LimpiarCommand}" />
+                    <Button Grid.Column="1" Text="Guardar" Command="{Binding GuardarCommand}" />
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Estudiantes}">
+            <CollectionView.EmptyView>
+                <Label Text="Aún no hay estudiantes registrados."
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Estudiante">
+                    <Border Padding="12" Margin="0,0,0,8">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Nombre}" FontAttributes="Bold" FontSize="16" />
+                            <Label Text="{Binding Correo}" />
+                            <Label Text="{Binding Telefono}" />
+                            <Label Text="{Binding Carrera}" />
+                            <Label Text="{Binding Fecha}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
